@@ -1,4 +1,6 @@
-# Enterprise Search
+# Enterprise Search - Demo Applicatio
+
+This application is intended for demo purposes only!
 
 A modern, AI-powered enterprise search application built with React, Elasticsearch Search Applications, and OpenAI integration.
 
