@@ -1,70 +1,265 @@
-# Getting Started with Create React App
+# Enterprise Search
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, AI-powered enterprise search application built with React, Elasticsearch Search Applications, and OpenAI integration.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **Multi-User Support**: Switch between different user profiles with role-based content boosting
+- **Elasticsearch Search Applications**: Modern search API with built-in analytics
+- **OpenAI Integration**: AI-powered summaries and conversational chat
+- **Multi-Document Summarization**: Select and summarize multiple documents
+- **Real-time Chat**: Context-aware AI assistant for search results
+- **Professional Export**: Download summaries as Markdown reports
+- **Responsive Design**: Works across desktop and tablet devices
 
-### `npm start`
+## 🏗️ Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+src/
+├── components/
+│   ├── Layout/
+│   │   ├── Layout.js
+│   │   ├── Header.js
+│   │   └── ConnectionStatus.js
+│   ├── User/
+│   │   └── UserSelector.js
+│   ├── Search/
+│   │   ├── SearchSection.js
+│   │   ├── SearchBar.js
+│   │   ├── SearchFilters.js
+│   │   └── SearchIndicators.js
+│   ├── Results/
+│   │   ├── ResultsSection.js
+│   │   ├── ResultCard.js
+│   │   └── ResultsControls.js
+│   ├── Chat/
+│   │   ├── ChatSidebar.js
+│   │   ├── ChatMessage.js
+│   │   └── ChatInput.js
+│   └── Summary/
+│       ├── SummaryModal.js
+│       └── SummaryContent.js
+├── contexts/
+│   ├── UserContext.js
+│   └── SearchContext.js
+├── hooks/
+│   ├── useElasticsearch.js
+│   ├── useOpenAI.js
+│   └── useChat.js
+├── data/
+│   ├── users.js
+│   └── mockData.js
+├── config/
+│   └── index.js
+├── utils/
+│   ├── export.js
+│   └── helpers.js
+├── styles/
+│   └── globals.css
+├── App.js
+└── index.js
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Installation
 
-### `npm test`
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd enterprise-search
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### `npm run build`
+3. **Configure environment**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit `.env` with your configuration:
+   ```
+   REACT_APP_ELASTIC_ENDPOINT=http://localhost:9200
+   REACT_APP_ELASTIC_API_KEY=your_elasticsearch_api_key
+   REACT_APP_SEARCH_APPLICATION_NAME=enterprise-search
+   REACT_APP_OPENAI_API_KEY=your_openai_api_key
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. **Start development server**
+   ```bash
+   npm start
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ⚙️ Configuration
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Elasticsearch Setup
 
-### `npm run eject`
+1. **Search Applications**: Create a search application in Elasticsearch:
+   ```bash
+   PUT /_application/search_application/enterprise-search
+   {
+     "indices": ["enterprise_documents"],
+     "template": {
+       "script": {
+         "source": {
+           "query": {
+             "bool": {
+               "must": [
+                 {
+                   "multi_match": {
+                     "query": "{{query_string}}",
+                     "fields": ["title^3", "content^2", "summary^2"]
+                   }
+                 }
+               ]
+             }
+           }
+         }
+       }
+     }
+   }
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. **Index Setup**: Ensure your index has the required fields:
+   ```json
+   {
+     "title": "string",
+     "content": "text",
+     "summary": "text",
+     "source": "keyword",
+     "author": "keyword",
+     "department": "keyword",
+     "content_type": "keyword",
+     "tags": "keyword",
+     "timestamp": "date",
+     "url": "keyword"
+   }
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### OpenAI Setup
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. **API Key**: Get your API key from OpenAI Dashboard
+2. **Model**: Currently configured for `gpt-3.5-turbo`
+3. **Rate Limits**: Consider implementing rate limiting for production
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🎯 Usage
 
-## Learn More
+### Basic Search
+1. Enter your search query in the search bar
+2. Use natural language queries like "What bugs are affecting payments?"
+3. Apply filters by source, date range, or content type
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Multi-Document Summarization
+1. Select documents using checkboxes
+2. Click "Summarize Selected" button
+3. Review AI-generated comprehensive summary
+4. Export summary as Markdown report
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### AI Chat Assistant
+1. Click "OpenAI Chat" to open sidebar
+2. Ask questions about search results
+3. Get context-aware responses based on your role
 
-### Code Splitting
+### User Switching
+1. Click user profile in header
+2. Select different user from dropdown
+3. Experience role-based search boosting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🔧 Development
 
-### Analyzing the Bundle Size
+### Adding New Components
+```bash
+# Create component directory
+mkdir src/components/NewFeature
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Create component files
+touch src/components/NewFeature/NewFeature.js
+touch src/components/NewFeature/index.js
+```
 
-### Making a Progressive Web App
+### Environment Variables
+- `REACT_APP_ELASTIC_ENDPOINT`: Elasticsearch cluster URL
+- `REACT_APP_ELASTIC_API_KEY`: Elasticsearch API key
+- `REACT_APP_SEARCH_APPLICATION_NAME`: Search application name
+- `REACT_APP_OPENAI_API_KEY`: OpenAI API key
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Code Style
+- Use functional components with hooks
+- Follow React best practices
+- Use Tailwind CSS for styling
+- Implement proper error handling
 
-### Advanced Configuration
+## 📦 Building for Production
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+# Build optimized bundle
+npm run build
 
-### Deployment
+# Serve build locally
+npx serve -s build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🧪 Testing
 
-### `npm run build` fails to minify
+```bash
+# Run tests
+npm test
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Run tests with coverage
+npm test -- --coverage
+```
+
+## 🚀 Deployment
+
+### Docker Deployment
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+### Environment Setup
+- Ensure Elasticsearch cluster is accessible
+- Configure proper CORS settings
+- Set up OpenAI API key securely
+- Configure reverse proxy if needed
+
+## 🔒 Security Considerations
+
+- API keys should be stored securely
+- Implement rate limiting for OpenAI calls
+- Use HTTPS in production
+- Validate user inputs
+- Implement proper authentication
+- Secure Elasticsearch cluster access
+
+## 📈 Performance Optimization
+
+- Implement search query debouncing
+- Use React.memo for expensive components
+- Implement virtual scrolling for large result sets
+- Cache search results appropriately
+- Optimize bundle size with code splitting
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+
+## 🔄 Changelog
+
+### v1.0.0
+- Initial release with full feature set
+- Elasticsearch Search Applications integration
+- OpenAI-powered summarization
+- Multi-user support with role-based boosting
+- Comprehensive chat assistant
