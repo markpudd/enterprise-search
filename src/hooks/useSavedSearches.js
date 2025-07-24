@@ -1,10 +1,10 @@
 // src/hooks/useSavedSearches.js
 import { useState, useEffect } from 'react';
-import { useUser } from '../contexts/UserContext';
+import { useUnifiedUser } from "./useUnifiedUser";
 import { getCurrentCompanyConfig } from '../config/branding';
 
 export const useSavedSearches = () => {
-  const { currentUser } = useUser();
+  const { currentUser } = useUnifiedUser();
   const [savedSearches, setSavedSearches] = useState([]);
   const [isSaving, setIsSaving] = useState(false);
   

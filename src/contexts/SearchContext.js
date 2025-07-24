@@ -1,8 +1,11 @@
 // src/contexts/SearchContext.js
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useUser } from './UserContext';
+import { config } from '../config';
+import { useUnifiedUser } from '../hooks/useUnifiedUser';
 import { useElasticsearch } from '../hooks/useElasticsearch';
 import { useOpenAI } from '../hooks/useOpenAI';
+import { useApiSearch } from '../hooks/useApiSearch';
+import { useApiLLM } from '../hooks/useApiLLM';
 
 const SearchContext = createContext();
 
@@ -15,7 +18,7 @@ export const useSearch = () => {
 };
 
 export const SearchProvider = ({ children }) => {
-  const { currentUser } = useUser();
+  const { currentUser } = useUnifiedUser();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedResults, setSelectedResults] = useState([]);
@@ -29,8 +32,18 @@ export const SearchProvider = ({ children }) => {
   });
   const [showFilters, setShowFilters] = useState(false);
 
-  const { searchElastic, connectionStatus, searchMode, testConnection, setSearchMode, setConnectionStatus } = useElasticsearch();
-  const { generateSummary } = useOpenAI();
+  // Use API hooks or legacy hooks based on configuration
+  const legacySearch = useElasticsearch();
+  const apiSearch = useApiSearch();
+  const legacyLLM = useOpenAI();
+  const apiLLM = useApiLLM();
+  
+  // Choose which hooks to use based on configuration
+  const searchHooks = config.api.useApiLayer ? apiSearch : legacySearch;
+  const llmHooks = config.api.useApiLayer ? apiLLM : legacyLLM;
+  
+  const { searchElastic, connectionStatus, searchMode, testConnection, setSearchMode, setConnectionStatus } = searchHooks;
+  const { generateSummary, generateComprehensiveSummary, generateChatResponse } = llmHooks;
 
   // Clear selections when user changes
   useEffect(() => {
@@ -142,7 +155,10 @@ export const SearchProvider = ({ children }) => {
     handleSearch,
     executeSearch, // New function for saved searches
     toggleResultSelection,
-    selectAllResults
+    selectAllResults,
+    generateSummary,
+    generateComprehensiveSummary,
+    generateChatResponse
   };
 
   return (

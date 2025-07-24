@@ -17,10 +17,10 @@ import {
 } from 'lucide-react';
 import { useSavedSearches } from '../../hooks/useSavedSearches';
 import { useSearch } from '../../contexts/SearchContext';
-import { useUser } from '../../contexts/UserContext';
+import { useUnifiedUser } from "../../hooks/useUnifiedUser";
 
 const SavedSearchesDropdown = () => {
-  const { currentUser } = useUser();
+  const { currentUser } = useUnifiedUser();
   const { searchQuery, selectedFilters, setSearchQuery, setSelectedFilters } = useSearch();
   const {
     savedSearches,

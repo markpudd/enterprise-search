@@ -1,13 +1,13 @@
 // src/components/SavedSearches/SavedSearchesModal.js
 import React, { useState, useEffect } from 'react';
 import { X, Search, Bookmark, Users, Lock, Trash2, Share2, Play, Clock, TrendingUp, Tag, Edit2 } from 'lucide-react';
-import { useUser } from '../../contexts/UserContext';
+import { useUnifiedUser } from "../../hooks/useUnifiedUser";
 import { useSearch } from '../../contexts/SearchContext';
 import { useSavedSearches } from '../../hooks/useSavedSearches';
 import LoadingSpinner from '../Common/LoadingSpinner';
 
 const SavedSearchesModal = ({ onClose, onSearchSelected }) => {
-  const { currentUser, availableUsers } = useUser();
+  const { currentUser, availableUsers } = useUnifiedUser();
   const { setSearchQuery, setSelectedFilters } = useSearch();
   const { 
     savedSearches, 

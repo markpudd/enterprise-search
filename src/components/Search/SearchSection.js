@@ -4,10 +4,12 @@ import SearchBar from './SearchBar';
 import SearchFilters from './SearchFilters';
 import SearchIndicators from './SearchIndicators';
 import SavedSearchesDropdown from './SavedSearchesDropdown';
+import AuthStatus from '../Auth/AuthStatus';
 
 const SearchSection = () => {
   return (
     <div className="mb-6">
+      <AuthStatus />
       <div className="flex items-end space-x-3 mb-2">
         <div className="flex-1">
           <SearchBar />

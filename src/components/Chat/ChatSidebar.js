@@ -1,18 +1,14 @@
 // src/components/Chat/ChatSidebar.js
 import React, { useState, useRef, useEffect } from 'react';
 import { X, Send, Bot, User, Search, Database } from 'lucide-react';
-import { useUser } from '../../contexts/UserContext';
+import { useUnifiedUser } from "../../hooks/useUnifiedUser";
 import { useSearch } from '../../contexts/SearchContext';
-import { useOpenAI } from '../../hooks/useOpenAI';
-import { useElasticsearch } from '../../hooks/useElasticsearch';
 import { useBranding } from '../../contexts/BrandingContext';
 import { formatMarkdown } from '../../utils/markdownFormatter';
 
 const ChatSidebar = ({ onClose }) => {
-  const { currentUser } = useUser();
-  const { searchResults } = useSearch();
-  const { generateChatResponse } = useOpenAI();
-  const { searchElastic } = useElasticsearch();
+  const { currentUser } = useUnifiedUser();
+  const { searchResults, generateChatResponse, searchElastic } = useSearch();
   const { getColor } = useBranding();
 
   // Early return if currentUser is not loaded

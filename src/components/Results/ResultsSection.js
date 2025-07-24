@@ -2,8 +2,7 @@
 import React from 'react';
 import { Search, Bot, CheckSquare, Square, Sparkles, Download, FileText } from 'lucide-react';
 import { useSearch } from '../../contexts/SearchContext';
-import { useUser } from '../../contexts/UserContext';
-import { useOpenAI } from '../../hooks/useOpenAI';
+import { useUnifiedUser } from "../../hooks/useUnifiedUser";
 import { useBranding } from '../../contexts/BrandingContext';
 import { generateAISummaryPDF } from '../../utils/pdfGenerator';
 import ResultCard from './ResultCard';
@@ -21,11 +20,11 @@ const ResultsSection = ({ showSummaryModal, setShowSummaryModal }) => {
     connectionStatus,
     searchMode,
     toggleResultSelection,
-    selectAllResults
+    selectAllResults,
+    generateComprehensiveSummary
   } = useSearch();
 
-  const { currentUser } = useUser();
-  const { generateComprehensiveSummary } = useOpenAI();
+  const { currentUser } = useUnifiedUser();
   const { getColor, getCompanyName } = useBranding();
   const [isGeneratingSummary, setIsGeneratingSummary] = React.useState(false);
   const [generatedSummary, setGeneratedSummary] = React.useState('');

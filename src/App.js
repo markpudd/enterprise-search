@@ -1,8 +1,8 @@
 // src/App.js
 import React from 'react';
 import { SearchProvider } from './contexts/SearchContext';
-import { UserProvider } from './contexts/UserContext';
 import { BrandingProvider } from './contexts/BrandingContext';
+import ApiModeWrapper from './components/ApiModeWrapper';
 import Layout from './components/Layout/Layout';
 import './styles/globals.css';
 
@@ -10,11 +10,11 @@ function App() {
   return (
     <div className="App">
       <BrandingProvider>
-        <UserProvider>
+        <ApiModeWrapper>
           <SearchProvider>
             <Layout />
           </SearchProvider>
-        </UserProvider>
+        </ApiModeWrapper>
       </BrandingProvider>
     </div>
   );

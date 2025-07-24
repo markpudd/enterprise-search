@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ThumbsUp, ThumbsDown, Minus, Loader2 } from 'lucide-react';
 import { useRating } from '../../hooks/useRating';
-import { useUser } from '../../contexts/UserContext';
+import { useUnifiedUser } from "../../hooks/useUnifiedUser";
 import { useSearch } from '../../contexts/SearchContext';
 
 const RatingButtons = ({ 
@@ -12,7 +12,7 @@ const RatingButtons = ({
   size = 'sm',
   onRatingSubmitted
 }) => {
-  const { currentUser } = useUser();
+  const { currentUser } = useUnifiedUser();
   const { searchQuery } = useSearch();
   const { submitSearchRating, submitSummaryRating, getUserRating, isSubmittingRating } = useRating();
   

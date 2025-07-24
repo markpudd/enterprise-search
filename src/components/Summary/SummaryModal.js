@@ -1,9 +1,8 @@
 // src/components/Summary/SummaryModal.js
 import React, { useState, useEffect } from 'react';
 import { X, Download, Sparkles, FileText } from 'lucide-react';
-import { useUser } from '../../contexts/UserContext';
+import { useUnifiedUser } from "../../hooks/useUnifiedUser";
 import { useSearch } from '../../contexts/SearchContext';
-import { useOpenAI } from '../../hooks/useOpenAI';
 import { useBranding } from '../../contexts/BrandingContext';
 import { generateDocumentSummaryPDF } from '../../utils/pdfGenerator';
 import { formatMarkdown } from '../../utils/markdownFormatter';
@@ -11,9 +10,8 @@ import SourceIcon from '../Common/SourceIcon';
 import RatingButtons from '../Common/RatingButtons';
 
 const SummaryModal = ({ onClose }) => {
-  const { currentUser } = useUser();
-  const { searchResults, selectedResults, searchQuery } = useSearch();
-  const { generateComprehensiveSummary } = useOpenAI();
+  const { currentUser } = useUnifiedUser();
+  const { searchResults, selectedResults, searchQuery, generateComprehensiveSummary } = useSearch();
   const { getCompanyName, getColor } = useBranding();
   
   const [generatedSummary, setGeneratedSummary] = useState('');

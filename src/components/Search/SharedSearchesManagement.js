@@ -13,10 +13,10 @@ import {
   Filter
 } from 'lucide-react';
 import { useSavedSearches } from '../../hooks/useSavedSearches';
-import { useUser } from '../../contexts/UserContext';
+import { useUnifiedUser } from "../../hooks/useUnifiedUser";
 
 const SharedSearchesManagement = () => {
-  const { currentUser } = useUser();
+  const { currentUser } = useUnifiedUser();
   const {
     getMySearches,
     getSharedWithMe,

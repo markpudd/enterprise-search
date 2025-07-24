@@ -1,11 +1,11 @@
 // src/components/SavedSearches/SaveSearchModal.js
 import React, { useState } from 'react';
 import { X, Save, Lock, Users, Tag } from 'lucide-react';
-import { useUser } from '../../contexts/UserContext';
+import { useUnifiedUser } from "../../hooks/useUnifiedUser";
 import { useSavedSearches } from '../../hooks/useSavedSearches';
 
 const SaveSearchModal = ({ onClose, searchQuery, searchFilters, onSaved }) => {
-  const { currentUser, availableUsers } = useUser();
+  const { currentUser, availableUsers } = useUnifiedUser();
   const { saveSearch, isLoading } = useSavedSearches();
 
   const [formData, setFormData] = useState({

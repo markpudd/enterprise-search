@@ -1,7 +1,7 @@
 // src/components/User/UserSelector.js
 import React, { useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { useUser } from '../../contexts/UserContext';
+import { useUnifiedUser } from '../../hooks/useUnifiedUser';
 
 const UserSelector = () => {
   const { 
@@ -11,7 +11,7 @@ const UserSelector = () => {
     handleUserSelect, 
     toggleUserDropdown,
     setShowUserDropdown
-  } = useUser();
+  } = useUnifiedUser();
 
   // Close dropdown when clicking outside
   useEffect(() => {

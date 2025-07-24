@@ -1,5 +1,11 @@
 // src/config/index.js
 export const config = {
+  // API Configuration - New Python API layer
+  api: {
+    baseUrl: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api/v1',
+    useApiLayer: process.env.REACT_APP_USE_API_LAYER !== 'false' // defaults to true
+  },
+  // Legacy direct configurations (kept for fallback)
   elasticsearch: {
     endpoint: process.env.REACT_APP_ELASTIC_ENDPOINT || 'http://localhost:9200',
     searchApplicationName: process.env.REACT_APP_SEARCH_APPLICATION_NAME || 'enterprise-search',
